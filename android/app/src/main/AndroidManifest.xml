@@ -1,8 +1,15 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <!-- For Just Audio Pcakcage -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <!-- Just Audio ALSO ADD THIS PERMISSION IF TARGETING SDK 34 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
+
     <application
         android:label="timer"
         android:name="${applicationName}"
@@ -16,6 +23,8 @@
             <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
         </intent-filter>
         </receiver>
+        <!-- Old Android Name -->
+        <!-- android:name=".MainActivity" -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -43,12 +52,27 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+    <service android:name="com.ryanheise.audioservice.AudioService"
+        android:foregroundServiceType="mediaPlayback"
+        android:exported="true" tools:ignore="Instantiatable">
+      <intent-filter>
+        <action android:name="android.media.browse.MediaBrowserService" />
+      </intent-filter>
+    </service>
+
+    <receiver android:name="com.ryanheise.audioservice.MediaButtonReceiver"
+        android:exported="true" tools:ignore="Instantiatable">
+      <intent-filter>
+        <action android:name="android.intent.action.MEDIA_BUTTON" />
+      </intent-filter>
+    </receiver> 
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
          https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
+    
     <queries>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
