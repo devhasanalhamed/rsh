@@ -7,7 +7,7 @@ class TimeFormatter {
   }
 
   static String formatTime(int hours, int minutes, int seconds) {
-    return '${_formatUnit(hours)}:${_formatUnit(minutes)}:${_formatUnit(seconds)}';
+    return '${_formatUnit(hours)} : ${_formatUnit(minutes)} : ${_formatUnit(seconds)}';
   }
 
   static String _formatUnit(int value) {
