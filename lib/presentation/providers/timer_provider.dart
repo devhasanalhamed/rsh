@@ -1,20 +1,23 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:timer/core/enums/timer_status.dart';
 import '../../data/models/timer_state.dart';
 import '../../core/services/notification_service.dart';
 import '../../core/services/audio_service.dart';
 import '../../core/services/storage_service.dart';
 
-final timerProvider = StateNotifierProvider<TimerNotifier, TimerState>((ref) {
+final timerProvider = StateNotifierProvider<TimerNotifier, TimerStateModel>((
+  ref,
+) {
   return TimerNotifier();
 });
 
-class TimerNotifier extends StateNotifier<TimerState> {
+class TimerNotifier extends StateNotifier<TimerStateModel> {
   Timer? _ticker;
 
   TimerNotifier()
     : super(
-        const TimerState(
+        const TimerStateModel(
           status: TimerStatus.initial,
           duration: Duration.zero,
           remaining: Duration.zero,
@@ -24,7 +27,7 @@ class TimerNotifier extends StateNotifier<TimerState> {
   void setTimer(Duration duration) {
     if (state.isRunning) return;
 
-    state = TimerState(
+    state = TimerStateModel(
       status: TimerStatus.initial,
       duration: duration,
       remaining: duration,
@@ -57,19 +60,23 @@ class TimerNotifier extends StateNotifier<TimerState> {
 
   void resetTimer() {
     _ticker?.cancel();
-    state = TimerState(
+    state = TimerStateModel(
       status: TimerStatus.initial,
-      duration: state.duration,
-      remaining: state.duration,
+      duration: Duration(),
+      remaining: Duration(),
     );
   }
 
   void _completeTimer() {
     _ticker?.cancel();
-    state = state.copyWith(status: TimerStatus.completed);
+    state = state.copyWith(
+      status: TimerStatus.completed,
+      remaining: Duration(),
+      duration: state.duration,
+    );
 
     // Play completion sound and show notification
-    AudioService.playTimerComplete();
+    AudioService.instance.playTimerComplete();
     NotificationService.showTimerCompleteNotification();
   }
 
