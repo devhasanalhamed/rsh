@@ -1,14 +1,11 @@
-class PresetTimer {
-  final String name;
-  final int hours;
-  final int minutes;
-  final int seconds;
+import 'package:timer/domain/entities/preset_timer.dart';
 
-  const PresetTimer({
-    required this.name,
-    required this.hours,
-    required this.minutes,
-    required this.seconds,
+class PresetTimerModel extends PresetTimer {
+  const PresetTimerModel({
+    required super.name,
+    required super.hours,
+    required super.minutes,
+    required super.seconds,
   });
 
   Duration get duration =>
@@ -18,28 +15,13 @@ class PresetTimer {
     return '$name:$hours:$minutes:$seconds';
   }
 
-  static PresetTimer fromJsonString(String jsonString) {
+  static PresetTimerModel fromJsonString(String jsonString) {
     final parts = jsonString.split(':');
-    return PresetTimer(
+    return PresetTimerModel(
       name: parts[0],
       hours: int.parse(parts[1]),
       minutes: int.parse(parts[2]),
       seconds: int.parse(parts[3]),
     );
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    return other is PresetTimer &&
-        other.name == name &&
-        other.hours == hours &&
-        other.minutes == minutes &&
-        other.seconds == seconds;
-  }
-
-  @override
-  int get hashCode {
-    return Object.hash(name, hours, minutes, seconds);
   }
 }
