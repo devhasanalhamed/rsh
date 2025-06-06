@@ -1,35 +1,33 @@
-enum TimerStatus { initial, running, paused, completed }
+import 'package:timer/core/enums/timer_status.dart';
+import 'package:timer/domain/entities/timer_state.dart';
 
-class TimerState {
-  final TimerStatus status;
-  final Duration duration;
-  final Duration remaining;
-
-  const TimerState({
-    required this.status,
-    required this.duration,
-    required this.remaining,
+class TimerStateModel extends TimerState {
+  const TimerStateModel({
+    required super.status,
+    required super.duration,
+    required super.remaining,
   });
 
-  TimerState copyWith({
+  TimerStateModel copyWith({
     TimerStatus? status,
     Duration? duration,
     Duration? remaining,
   }) {
-    return TimerState(
+    return TimerStateModel(
       status: status ?? this.status,
       duration: duration ?? this.duration,
       remaining: remaining ?? this.remaining,
     );
   }
 
+  bool get isInitial => status == TimerStatus.initial;
   bool get isRunning => status == TimerStatus.running;
   bool get isPaused => status == TimerStatus.paused;
   bool get isCompleted => status == TimerStatus.completed;
-  bool get isInitial => status == TimerStatus.initial;
 
   double get progress {
     if (duration.inSeconds == 0) return 0.0;
-    return 1.0 - (remaining.inSeconds / duration.inSeconds);
+
+    return 1 - (remaining.inSeconds / duration.inSeconds);
   }
 }
