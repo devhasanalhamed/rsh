@@ -9,6 +9,9 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <!-- Just Audio ALSO ADD THIS PERMISSION IF TARGETING SDK 34 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
+    <!-- Vibration Permissions For Some Android Versions -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
 
     <application
         android:label="timer"
