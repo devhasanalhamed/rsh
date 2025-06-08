@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:timer/core/services/vibration_service.dart';
 import '../providers/timer_provider.dart';
 import '../../core/constants/app_constants.dart';
 
@@ -110,7 +111,7 @@ class _TimerPickerState extends ConsumerState<TimerPicker> {
       minutes: _minutes,
       seconds: _seconds,
     );
-
+    VibrationService.instance.tick();
     ref.read(timerProvider.notifier).setTimer(duration);
   }
 }
