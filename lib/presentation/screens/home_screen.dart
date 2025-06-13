@@ -53,8 +53,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     if (timerState.isInitial) ...[
                       const TimerPicker(),
                       const SizedBox(height: 20),
-                      const PresetButtons(),
-                      const SizedBox(height: 30),
+                      // const PresetButtons(),
+                      // const SizedBox(height: 30),
                     ],
                   ],
                 ),
